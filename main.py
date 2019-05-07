@@ -42,7 +42,7 @@ def record(filename):
 def capture_audio():
     with sr.Microphone() as source:
         print("Please wait")
-        r.adjust_for_ambient_noise(source)  # listen for 1 second to calibrate the energy threshold for ambient noise levels
+        r.adjust_for_ambient_noise(source, duration=1)  # listen for 1 second to calibrate the energy threshold for ambient noise levels
         print("Say something!")
         audio = r.listen(source)
     return audio
