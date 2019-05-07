@@ -72,9 +72,9 @@ def playback(filename):
     p.terminate()
 
 def main():
-    audio = capture_audio()
-    print(google_recognizer(audio))
-    # playback('output.wav')
+    audio = record('output.wav')
+    print(sphinx_recognizer(audio))
+    # playback('chords/44kmono Am.wav')
 
 if __name__ == "__main__":
     main()
