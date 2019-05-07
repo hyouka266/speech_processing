@@ -46,9 +46,34 @@ def capture():
         audio = r.listen(source)
     return audio
 
+def playback(filename):
+    import wave
+    import pyaudio
+
+    CHUNK = 1024
+
+    wf = wave.open(filename, 'rb')
+    p = pyaudio.PyAudio()
+
+    stream = p.open(format=p.get_format_from_width(wf.getsampwidth()),
+                    channels=wf.getnchannels(),
+                    rate=wf.getframerate(),
+                    output=True)
+
+    data = wf.readframes(CHUNK)
+
+    while data != '':
+        stream.write(data)
+        data = wf.readframes(CHUNK)
+
+    stream.stop_stream()
+    stream.close()
+    p.terminate()
+
 def main():
-    audio = record('output.wav')
-    google_recognizer(audio)
+    # audio = record('output.wav')
+    # google_recognizer(audio)
+    playback('output.wav')
 
 if __name__ == "__main__":
     main()
