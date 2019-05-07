@@ -18,7 +18,7 @@ def google_recognizer(audio):
     }"""
     try:
         text = r.recognize_google_cloud(audio, credentials_json=GOOGLE_CLOUD_SPEECH_CREDENTIALS)
-        print(text)
+        return text
     except sr.UnknownValueError:
         print("Google Cloud Speech could not understand audio")
     except sr.RequestError as e:
@@ -27,7 +27,7 @@ def google_recognizer(audio):
 def sphinx_recognizer(audio):
     try:
         text = r.recognize_sphinx(audio)
-        print(text)
+        return text
     except sr.UnknownValueError:
         print("Sphinx could not understand audio")
     except sr.RequestError as e:
@@ -39,8 +39,9 @@ def record(filename):
         audio = r.record(source)
     return audio
 
-def capture():
+def capture_audio():
     with sr.Microphone() as source:
+        print("Please wait")
         r.adjust_for_ambient_noise(source)  # listen for 1 second to calibrate the energy threshold for ambient noise levels
         print("Say something!")
         audio = r.listen(source)
@@ -71,9 +72,9 @@ def playback(filename):
     p.terminate()
 
 def main():
-    # audio = record('output.wav')
-    # google_recognizer(audio)
-    playback('output.wav')
+    audio = capture_audio()
+    print(google_recognizer(audio))
+    # playback('output.wav')
 
 if __name__ == "__main__":
     main()
