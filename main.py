@@ -1,30 +1,26 @@
 import speech_recognition as sr
 from os import path
 import os
+import time
 
 r = sr.Recognizer()
+m = sr.Microphone()
 
-def sphinx_recognizer(audio):
+keyword = [('a minor', 0.3), ('c major', 0.3), ('d minor', 0.3), ('e minor', 0.3), ('f major', 0.3), ('g major', 0.3)]
+
+def google_recognizer(audio):
     try:
-        text = r.recognize_sphinx(audio)
+        text = r.recognize_google(audio)
         return text
     except sr.UnknownValueError:
-        print("Sphinx could not understand audio")
+        print("Google Cloud Speech could not understand audio")
     except sr.RequestError as e:
-        print("Sphinx error; {0}".format(e))
+        print("Could not request results from Google Cloud Speech service; {0}".format(e))
 
-def record(filename):
+def recorded_audio(filename):
     AUDIO_FILE = path.join(path.dirname(path.realpath(__file__)), filename)
     with sr.AudioFile(AUDIO_FILE) as source:
         audio = r.record(source)
-    return audio
-
-def capture_audio():
-    with sr.Microphone() as source:
-        print("Please wait")
-        r.adjust_for_ambient_noise(source, duration=1)  # listen for 1 second to calibrate the energy threshold for ambient noise levels
-        print("Say something!")
-        audio = r.listen(source)
     return audio
 
 def playback(filename):
@@ -51,10 +47,45 @@ def playback(filename):
     stream.close()
     p.terminate()
 
+def playchord(chord):
+    if chord == 'a minor':
+        playback('chords/Am.wav')
+    elif chord == 'c major':
+        playback('chords/C.wav')
+    elif chord == 'd minor':
+        playback('chords/Dm.wav')
+    elif chord == 'e minor':
+        playback('chords/Em.wav')
+    elif chord == 'g major':
+        playback('chords/G.wav')
+    elif chord == 'f major':
+        playback('chords/F.wav')
+    else:
+        pass
+
 def main():
-    audio = record('output.wav')
-    print(sphinx_recognizer(audio))
-    # playback('chords/Am.wav')
+    # audio = recorded_audio('test_audio/record apple.wav')
+
+    with m as source:
+        print("Please wait")
+        r.adjust_for_ambient_noise(source, duration=1)  # listen for 1 second to calibrate the energy threshold for ambient noise levels
+        print("Say something!")
+        # audio = r.listen(source)
+
+    content = []
+    def callback(recognizer, audio):
+        try:
+            text = recognizer.recognize_sphinx(audio, language="en-US", keyword_entries=keyword)
+            # content.append(text)
+            # playback(text)
+            print(text)
+        except sr.UnknownValueError:
+            print("could not understand audio")
+
+    stop_listening = r.listen_in_background(m, callback)
+
+    for _ in range(50):
+        time.sleep(0.1)
 
 if __name__ == "__main__":
     main()
