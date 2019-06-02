@@ -1,21 +1,13 @@
-import speech_recognition as sr
+# import speech_recognition as sr
 from os import path
 import os
 import time
+import hmm as my_hmm
 
 r = sr.Recognizer()
 m = sr.Microphone()
 
 keyword = [('a minor', 0.3), ('c major', 0.3), ('d minor', 0.3), ('e minor', 0.3), ('f major', 0.3), ('g major', 0.3)]
-
-def google_recognizer(audio):
-    try:
-        text = r.recognize_google(audio)
-        return text
-    except sr.UnknownValueError:
-        print("Google Cloud Speech could not understand audio")
-    except sr.RequestError as e:
-        print("Could not request results from Google Cloud Speech service; {0}".format(e))
 
 def recorded_audio(filename):
     AUDIO_FILE = path.join(path.dirname(path.realpath(__file__)), filename)
@@ -81,6 +73,9 @@ def main():
             print(text)
         except sr.UnknownValueError:
             print("could not understand audio")
+
+    # def transcribe():
+
 
     stop_listening = r.listen_in_background(m, callback)
 
