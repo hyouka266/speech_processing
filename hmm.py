@@ -46,21 +46,25 @@ def get_prob(log_x1, log_x2):
         return p[1], p[0]
 
 #%%
-# record_data('train_data/C')
-# record_data('train_data/D')
-# record_data('train_data/E')
-# record_data('train_data/F')
-# record_data('train_data/G')
-# record_data('train_data/A')
+record_data('train_data/Em')
+
 
 #%%
 n_sample = 10
 data_C = [get_mfcc('train_data/C_{}.wav'.format(i)) for i in range(n_sample)]
+data_Cm = [get_mfcc('train_data/Cm_{}.wav'.format(i)) for i in range(n_sample)]
+data_D = [get_mfcc('train_data/D_{}.wav'.format(i)) for i in range(n_sample)]
 data_Dm = [get_mfcc('train_data/Dm_{}.wav'.format(i)) for i in range(n_sample)]
+data_E = [get_mfcc('train_data/E_{}.wav'.format(i)) for i in range(n_sample)]
 data_Em = [get_mfcc('train_data/Em_{}.wav'.format(i)) for i in range(n_sample)]
 data_F = [get_mfcc('train_data/F_{}.wav'.format(i)) for i in range(n_sample)]
+data_Fm = [get_mfcc('train_data/Fm_{}.wav'.format(i)) for i in range(n_sample)]
 data_G = [get_mfcc('train_data/G_{}.wav'.format(i)) for i in range(n_sample)]
+data_Gm = [get_mfcc('train_data/Gm_{}.wav'.format(i)) for i in range(n_sample)]
+data_A = [get_mfcc('train_data/A_{}.wav'.format(i)) for i in range(n_sample)]
 data_Am = [get_mfcc('train_data/Am_{}.wav'.format(i)) for i in range(n_sample)]
+data_B = [get_mfcc('train_data/B_{}.wav'.format(i)) for i in range(n_sample)]
+data_Bm = [get_mfcc('train_data/Bm_{}.wav'.format(i)) for i in range(n_sample)]
 
 #%%
 model_C = hmm.GaussianHMM(n_components=30, verbose=True, n_iter=200)
