@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import librosa
 import hmmlearn.hmm as hmm
 from math import exp
+import simpleaudio as sa
 
 #%%
 def record_sound(filename, duration=1, fs=44100, play=False):
@@ -33,6 +34,21 @@ def record_data(prefix, i=0, n=10, duration=1):
         record_sound('{}_{}.wav'.format(prefix, i), duration=duration)
         # if i % 10 == 9:
         #     input("Press Enter to continue...")
+
+#%%
+def playback(chordname):
+    tup = [('piano', 'piano'),
+        ('c major', 'c'), ('c minor', 'cm'),
+        ('d major', 'd'), ('d minor', 'dm'),
+        ('e major', 'e'), ('e minor', 'em'),
+        ('f major', 'f'), ('f minor', 'fm'),
+        ('g major', 'g'), ('g minor', 'gm'),
+        ('a major', 'a'), ('a minor', 'am'),
+        ('b major', 'b'), ('b minor', 'bm')]
+    filename = ['chords/{}.wav'.format(i[1]) for i in tup if i[0] == chordname][0]
+    wav_obj = sa.WaveObject.from_wave_file(filename)
+    play_obj = wav_obj.play()
+    play_obj.wait_done()
 
 def get_mfcc(filename):
     data, fs = librosa.load(filename, sr=None)
@@ -141,7 +157,8 @@ def transcribe_audio(filename):
 
 #%%
 # record_sound('audio_test.wav')
-print(transcribe_audio('audio_test.wav'))
+# print(transcribe_audio('audio_test.wav'))
+playback('e major')
 
 #%%
 root = tk.Tk()
@@ -179,25 +196,50 @@ def changepic(chordname):
 
 
 labelText = tk.StringVar()
+chord_name = 'c major'
 def rec_func(event):
     record_sound('audio_test.wav')
-    log_max, chord_name = transcribe_audio('audio_test.wav')
-    changepic(chord_name)
-    # chord_name = 'no'
-    labelText.set(chord_name)
+    log_max, _chord_name = transcribe_audio('audio_test.wav')
+    chord_name = _chord_name
+    changepic(_chord_name)
+    playback(_chord_name)
+    labelText.set(_chord_name)
 
-rec_button = tk.Button(master=frame, 
-    text='Record', 
-    width=25, 
-    fg='black',
-    activeforeground='white', 
-    activebackground='lightgreen',
-    bg='white')
-rec_button.pack(side='bottom')
-rec_button.bind('<Button-1>', rec_func)
+def play_func(event):
+    playback(chord_name)
 
 chord_label = tk.Label(frame, textvariable=labelText, fg='black', font=20, bg='white')
 chord_label.pack()
+
+bot_frame = tk.Frame(master=root, bg='white', height=100)
+bot_frame.pack(side='bottom')
+
+play_button = tk.Button(master=bot_frame, 
+    text='Play', 
+    width=25, 
+    fg='black',
+    activeforeground='black', 
+    activebackground='lightblue',
+    bg='white')
+play_button.pack()
+play_button.bind('<Button-1>', play_func)
+
+pad_frame2 = tk.Frame(master=bot_frame, bg='white', height=30)
+pad_frame2.pack()
+
+rec_button = tk.Button(master=bot_frame, 
+    text='Record', 
+    width=25, 
+    fg='black',
+    activeforeground='black', 
+    activebackground='lightgreen',
+    bg='white')
+rec_button.pack()
+rec_button.bind('<Button-1>', rec_func)
+
+pad_frame = tk.Frame(master=bot_frame, bg='white', height=50)
+pad_frame.pack()
+
 
 
 root.mainloop()
