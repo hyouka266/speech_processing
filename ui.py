@@ -157,8 +157,8 @@ def transcribe_audio(filename):
 
 #%%
 # record_sound('audio_test.wav')
-# print(transcribe_audio('audio_test.wav'))
-playback('e major')
+print(transcribe_audio('train_data/Am_12.wav'))
+# playback('e major')
 
 #%%
 root = tk.Tk()
@@ -202,11 +202,13 @@ def rec_func(event):
     log_max, _chord_name = transcribe_audio('audio_test.wav')
     chord_name = _chord_name
     changepic(_chord_name)
-    playback(_chord_name)
     labelText.set(_chord_name)
 
+    # playback(_chord_name)
+
 def play_func(event):
-    playback(chord_name)
+    if chord_name != '':
+        playback(chord_name)
 
 chord_label = tk.Label(frame, textvariable=labelText, fg='black', font=20, bg='white')
 chord_label.pack()
@@ -215,7 +217,7 @@ bot_frame = tk.Frame(master=root, bg='white', height=100)
 bot_frame.pack(side='bottom')
 
 play_button = tk.Button(master=bot_frame, 
-    text='Play', 
+    text='Play Chord', 
     width=25, 
     fg='black',
     activeforeground='black', 
@@ -227,7 +229,7 @@ play_button.bind('<Button-1>', play_func)
 pad_frame2 = tk.Frame(master=bot_frame, bg='white', height=30)
 pad_frame2.pack()
 
-rec_button = tk.Button(master=bot_frame, 
+rec_button = tk.Button(master=bot_frame,
     text='Record', 
     width=25, 
     fg='black',
