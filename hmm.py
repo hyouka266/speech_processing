@@ -12,6 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import librosa
 import hmmlearn.hmm as hmm
+import pickle
 from math import exp
 
 def record_sound(filename, duration=1, fs=44100, play=False):
@@ -46,7 +47,7 @@ def get_prob(log_x1, log_x2):
         return p[1], p[0]
 
 #%%
-record_data('train_data/Bm', i=10, n=30)
+# record_data('train_data/Bm', i=10, n=30)
 
 
 #%%
@@ -69,45 +70,76 @@ data_Bm = [get_mfcc('train_data/Bm_{}.wav'.format(i)) for i in range(n_sample)]
 #%%
 model_C = hmm.GaussianHMM(n_components=30, verbose=True, n_iter=200)
 model_C.fit(X=np.vstack(data_C), lengths=[x.shape[0] for x in data_C])
+with open('pkl/model_c.pkl', 'wb') as file: pickle.dump(model_C, file)
 
 model_Cm = hmm.GaussianHMM(n_components=30, verbose=True, n_iter=200)
 model_Cm.fit(X=np.vstack(data_Cm), lengths=[x.shape[0] for x in data_Cm])
+with open('pkl/model_cm.pkl', 'wb') as file: pickle.dump(model_Cm, file)
 
 model_D = hmm.GaussianHMM(n_components=30, verbose=True, n_iter=200)
 model_D.fit(X=np.vstack(data_D), lengths=[x.shape[0] for x in data_D])
+with open('pkl/model_d.pkl', 'wb') as file: pickle.dump(model_D, file)
 
 model_Dm = hmm.GaussianHMM(n_components=30, verbose=True, n_iter=200)
 model_Dm.fit(X=np.vstack(data_Dm), lengths=[x.shape[0] for x in data_Dm])
+with open('pkl/model_dm.pkl', 'wb') as file: pickle.dump(model_Dm, file)
 
 model_E = hmm.GaussianHMM(n_components=30, verbose=True, n_iter=200)
 model_E.fit(X=np.vstack(data_E), lengths=[x.shape[0] for x in data_E])
+with open('pkl/model_e.pkl', 'wb') as file: pickle.dump(model_E, file)
 
 model_Em = hmm.GaussianHMM(n_components=30, verbose=True, n_iter=200)
 model_Em.fit(X=np.vstack(data_Em), lengths=[x.shape[0] for x in data_Em])
+with open('pkl/model_em.pkl', 'wb') as file: pickle.dump(model_Em, file)
 
 model_F = hmm.GaussianHMM(n_components=30, verbose=True, n_iter=200)
 model_F.fit(X=np.vstack(data_F), lengths=[x.shape[0] for x in data_F])
+with open('pkl/model_f.pkl', 'wb') as file: pickle.dump(model_F, file)
 
 model_Fm = hmm.GaussianHMM(n_components=30, verbose=True, n_iter=200)
 model_Fm.fit(X=np.vstack(data_Fm), lengths=[x.shape[0] for x in data_Fm])
+with open('pkl/model_fm.pkl', 'wb') as file: pickle.dump(model_Fm, file)
 
 model_G = hmm.GaussianHMM(n_components=30, verbose=True, n_iter=200)
 model_G.fit(X=np.vstack(data_G), lengths=[x.shape[0] for x in data_G])
+with open('pkl/model_g.pkl', 'wb') as file: pickle.dump(model_G, file)
 
 model_Gm = hmm.GaussianHMM(n_components=30, verbose=True, n_iter=200)
 model_Gm.fit(X=np.vstack(data_Gm), lengths=[x.shape[0] for x in data_Gm])
+with open('pkl/model_gm.pkl', 'wb') as file: pickle.dump(model_Gm, file)
 
 model_A = hmm.GaussianHMM(n_components=30, verbose=True, n_iter=200)
 model_A.fit(X=np.vstack(data_A), lengths=[x.shape[0] for x in data_A])
+with open('pkl/model_a.pkl', 'wb') as file: pickle.dump(model_A, file)
 
 model_Am = hmm.GaussianHMM(n_components=30, verbose=True, n_iter=200)
 model_Am.fit(X=np.vstack(data_Am), lengths=[x.shape[0] for x in data_Am])
+with open('pkl/model_am.pkl', 'wb') as file: pickle.dump(model_Am, file)
 
 model_B = hmm.GaussianHMM(n_components=30, verbose=True, n_iter=200)
 model_B.fit(X=np.vstack(data_B), lengths=[x.shape[0] for x in data_B])
+with open('pkl/model_b.pkl', 'wb') as file: pickle.dump(model_B, file)
 
 model_Bm = hmm.GaussianHMM(n_components=30, verbose=True, n_iter=200)
 model_Bm.fit(X=np.vstack(data_Bm), lengths=[x.shape[0] for x in data_Bm])
+with open('pkl/model_bm.pkl', 'wb') as file: pickle.dump(model_Bm, file)
+
+#%%
+
+with open('pkl/model_c.pkl', 'rb') as file: model_C = pickle.load(file)
+with open('pkl/model_cm.pkl', 'rb') as file: model_Cm = pickle.load(file)
+with open('pkl/model_d.pkl', 'rb') as file: model_D = pickle.load(file)
+with open('pkl/model_dm.pkl', 'rb') as file: model_Dm = pickle.load(file)
+with open('pkl/model_e.pkl', 'rb') as file: model_E = pickle.load(file)
+with open('pkl/model_em.pkl', 'rb') as file: model_Em = pickle.load(file)
+with open('pkl/model_f.pkl', 'rb') as file: model_F = pickle.load(file)
+with open('pkl/model_fm.pkl', 'rb') as file: model_Fm = pickle.load(file)
+with open('pkl/model_g.pkl', 'rb') as file: model_G = pickle.load(file)
+with open('pkl/model_gm.pkl', 'rb') as file: model_Gm = pickle.load(file)
+with open('pkl/model_a.pkl', 'rb') as file: model_A = pickle.load(file)
+with open('pkl/model_am.pkl', 'rb') as file: model_Am = pickle.load(file)
+with open('pkl/model_b.pkl', 'rb') as file: model_B = pickle.load(file)
+with open('pkl/model_bm.pkl', 'rb') as file: model_Bm = pickle.load(file)
 
 #%%
 # print(model_C.score(mfcc) - model_Dm.score(mfcc))
